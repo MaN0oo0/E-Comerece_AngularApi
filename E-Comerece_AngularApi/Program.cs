@@ -16,8 +16,10 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddScoped<IProduct, ProductRepo>();
 
+
+builder.Services.AddScoped<IProduct, ProductRepo>();
+builder.Services.AddScoped(typeof(IGenricRepo<>),typeof(GenricRepo<>));
 
 
 

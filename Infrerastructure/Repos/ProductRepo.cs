@@ -22,9 +22,11 @@ namespace Infrerastructure.Repos
         public async Task<Product> GetProductByIdAsync(int Id)
         {
 
-            var data = await db.Products.FindAsync(Id);
-
-            return data;
+           return await db.Products
+                .Include(a => a.productType)
+                .Include(a => a.productBrand)
+                .FirstOrDefaultAsync(a => a.Id == Id);
+           
 
 
 
@@ -32,8 +34,11 @@ namespace Infrerastructure.Repos
 
         public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
-            var data = await db.Products.ToListAsync();
-            return data;
+             return await db.Products
+                .Include(a=>a.productBrand)
+                .Include(a=>a.productType)
+                .ToListAsync();
+            
         }
 
         public async Task<IReadOnlyList<ProductBrand>> GetProductsBrandAsync()
