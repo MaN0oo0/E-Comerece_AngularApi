@@ -1,5 +1,6 @@
 
 using Core.Interfaces;
+using E_Comerece_AngularApi.Middelware;
 using Infrerastructure.Data;
 using Infrerastructure.Repos;
 using Microsoft.EntityFrameworkCore;
@@ -37,9 +38,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//Handel Middelware Exception
+app.UseMiddleware<ExceptionMiddelware>();
+
+//Handel Errors call
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();

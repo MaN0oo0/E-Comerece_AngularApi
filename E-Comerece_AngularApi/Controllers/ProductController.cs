@@ -12,7 +12,7 @@ namespace E_Comerece_AngularApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : BaseApiController
     {
         //private readonly IProduct ProductRep;
         private readonly IGenricRepo<Product> ProductRep;
