@@ -1,6 +1,8 @@
-﻿using Core.Entites;
+﻿using AutoMapper;
+using Core.Entites;
 using Core.Helpers;
 using Core.Interfaces;
+using E_Comerece_AngularApi.ModelVM;
 using Infrerastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,35 +18,37 @@ namespace E_Comerece_AngularApi.Controllers
         private readonly IGenricRepo<Product> ProductRep;
         private readonly IGenricRepo<ProductBrand> ProductBrandRepo;
         private readonly IGenricRepo<ProductType> ProductTypeRep;
+        private readonly IMapper mapper;
 
-        public ProductController(IGenricRepo<Product> productRep, IGenricRepo<ProductBrand> productBrandRepo, IGenricRepo<ProductType> productTypeRep)
+        public ProductController(IGenricRepo<Product> productRep, IGenricRepo<ProductBrand> productBrandRepo, IGenricRepo<ProductType> productTypeRep, IMapper mapper)
         {
             ProductRep = productRep;
             ProductBrandRepo = productBrandRepo;
             ProductTypeRep = productTypeRep;
+            this.mapper = mapper;
         }
 
 
 
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>>GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts()
         {
             var Filter = new ProductWithIncludes();
             var data = await ProductRep.listAllByFilterAsync(Filter);
-            return Ok(data);
+            return Ok(mapper.Map<List<ProductVM>>(data));
         }
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<Product>> GetProduct(int Id)
+        public async Task<ActionResult<ProductVM>> GetProduct(int Id)
         {
-            var Filter = new ProductWithIncludes();
-            if (Id!=0)
+            var Filter = new ProductWithIncludes(Id);
+            if (Id != 0)
             {
-                var data = await ProductRep.GetByFilterAsync(Filter) ;
-                if (data!=null)
+                var data = await ProductRep.GetByFilterAsync(Filter);
+                if (data != null)
                 {
-                return data;
+                    return mapper.Map<ProductVM>(data);
 
                 }
                 else

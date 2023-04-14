@@ -16,6 +16,10 @@ namespace Core.Helpers
                 AddIncludes(a => a.productBrand);
                 AddIncludes(a => a.productType);
             }
-        
+        public ProductWithIncludes(int Id):base(x=>x.Id==Id)
+        {
+            AddIncludes(a => a.productBrand);
+            AddIncludes(a => a.productType);
+        }
     }
 }

@@ -22,6 +22,10 @@ builder.Services.AddScoped<IProduct, ProductRepo>();
 builder.Services.AddScoped(typeof(IGenricRepo<>),typeof(GenricRepo<>));
 
 
+//Add Auto Mapper Configrations
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 
 
 
