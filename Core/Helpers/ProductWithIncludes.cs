@@ -13,13 +13,11 @@ namespace Core.Helpers
     {
 
         public ProductWithIncludes(ProductHelpParam productHelpParam) : base(x =>
-
-        (
-        !productHelpParam.BrandId.HasValue || x.ProductBrandId == productHelpParam.BrandId)
+        (string.IsNullOrEmpty(productHelpParam.Search) || x.Name.ToLower().Contains(productHelpParam.Search))
+        &&
+        (!productHelpParam.BrandId.HasValue || x.ProductBrandId == productHelpParam.BrandId)
         &&
         (!productHelpParam.TypeId.HasValue || x.ProductTypeId == productHelpParam.TypeId)
-
-
         )
         {
 

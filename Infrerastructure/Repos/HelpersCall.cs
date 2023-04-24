@@ -18,20 +18,24 @@ namespace Infrerastructure.Repos
             {
                 query = query.Where(help.Filter);
             }
-            if (help.OrderBy!=null)
+            if (help.OrderBy != null)
             {
                 query = query.OrderBy(help.OrderBy);
             }
-            if (help.OrderByDescending!=null)
+            if (help.OrderByDescending != null)
             {
                 query = query.OrderByDescending(help.OrderByDescending);
             }
             if (help.PagingIsEnable)
             {
-                query = query.Skip(help.Skip).Take(help.Take);
+                if (help.Skip > 0 && help.Take > 0)
+                {
+                    query = query.Skip(help.Skip).Take(help.Take);
+
+                }
             }
             query = help.Inculdes.Aggregate(query, (current, include) => current.Include(include));
-            return query; 
+            return query;
         }
     }
 }

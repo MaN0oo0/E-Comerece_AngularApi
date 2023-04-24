@@ -33,14 +33,14 @@ namespace E_Comerece_AngularApi.Controllers
 
 
         [HttpGet("Products")]
-        public async Task<ActionResult<Pagination<Product>>> GetProducts([FromQuery]ProductHelpParam productHelpParam)
+        public async Task<ActionResult<Pagination<ProductVM>>> GetProducts([FromQuery]ProductHelpParam productHelpParam)
         {
             var Filter = new ProductWithIncludes(productHelpParam);
             var Count = new ProductWithFilterCount(productHelpParam);
             var TotalIteams = await ProductRep.GetCountAsync(Count);
             var Products = await ProductRep.listAllByFilterAsync(Filter);
 
-            var data = mapper.Map<List<ProductVM>>(Products);
+            var data = mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductVM>>(Products);
             return Ok(new Pagination<ProductVM>(productHelpParam.PageIndex,productHelpParam.PageSize,TotalIteams,data));
         }
 

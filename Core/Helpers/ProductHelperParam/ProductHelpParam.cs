@@ -21,6 +21,12 @@ namespace Core.Helpers.ProductHelperParam
         public int? TypeId { get; set; }
         public string? Sort { get; set; }
 
+        private string _Search { get; set; }
+        public string Search
+        {
+            get => _Search;
+            set => _Search = value.ToLower();
+        }
 
     }
 }

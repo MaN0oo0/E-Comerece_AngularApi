@@ -13,7 +13,8 @@ namespace Core.Helpers
         public ProductWithFilterCount(ProductHelpParam productHelpParam) : base(x =>
 
 
-
+        (string.IsNullOrEmpty(productHelpParam.Search) || x.Name.ToLower().Contains(productHelpParam.Search))
+        &&
         (!productHelpParam.BrandId.HasValue || x.ProductBrandId == productHelpParam.BrandId)
         &&
         (!productHelpParam.TypeId.HasValue || x.ProductTypeId == productHelpParam.TypeId)
