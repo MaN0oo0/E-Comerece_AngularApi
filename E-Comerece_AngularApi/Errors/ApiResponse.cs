@@ -17,6 +17,7 @@
                 404 => "Response Not Found",
                 500 => "Server Error Occured",
                 //default (_) ==> _
+
                 _ => null
             };
 

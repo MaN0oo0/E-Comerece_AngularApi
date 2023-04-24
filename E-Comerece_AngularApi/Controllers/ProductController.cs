@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Comerece_AngularApi.Controllers
 {
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     [ApiController]
     public class ProductController : BaseApiController
     {
