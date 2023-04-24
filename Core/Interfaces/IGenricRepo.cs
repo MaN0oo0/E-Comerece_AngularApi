@@ -14,5 +14,7 @@ namespace Core.Interfaces
         Task<IReadOnlyList<T>>ListAllAsync();
         Task<T> GetByFilterAsync(IHelpers<T> Help);
         Task<IReadOnlyList<T>> listAllByFilterAsync(IHelpers<T> Help);
+
+        Task<int> GetCountAsync(IHelpers<T> Help);
     }
 }

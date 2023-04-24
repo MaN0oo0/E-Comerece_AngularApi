@@ -31,6 +31,11 @@ namespace Infrerastructure.Repos
 
         }
 
+        public async Task<int> GetCountAsync(IHelpers<T> Help)
+        {
+           return await CallHelpers(Help).CountAsync();
+        }
+
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
             return await db.Set<T>().ToListAsync();

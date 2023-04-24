@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entites;
 using Core.Helpers;
+using Core.Helpers.ProductHelperParam;
 using Core.Interfaces;
 using E_Comerece_AngularApi.ModelVM;
 using Infrerastructure.Data;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Comerece_AngularApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductController : BaseApiController
     {
@@ -31,16 +32,20 @@ namespace E_Comerece_AngularApi.Controllers
 
 
 
-        [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        [HttpGet("Products")]
+        public async Task<ActionResult<Pagination<Product>>> GetProducts([FromQuery]ProductHelpParam productHelpParam)
         {
-            var Filter = new ProductWithIncludes();
-            var data = await ProductRep.listAllByFilterAsync(Filter);
-            return Ok(mapper.Map<List<ProductVM>>(data));
+            var Filter = new ProductWithIncludes(productHelpParam);
+            var Count = new ProductWithFilterCount(productHelpParam);
+            var TotalIteams = await ProductRep.GetCountAsync(Count);
+            var Products = await ProductRep.listAllByFilterAsync(Filter);
+
+            var data = mapper.Map<List<ProductVM>>(Products);
+            return Ok(new Pagination<ProductVM>(productHelpParam.PageIndex,productHelpParam.PageSize,TotalIteams,data));
         }
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<ProductVM>> GetProduct(int Id)
+        [HttpGet("ProductById/{Id}")]
+        public async Task<ActionResult<Product>> GetProduct(int Id)
         {
             var Filter = new ProductWithIncludes(Id);
             if (Id != 0)
@@ -48,7 +53,7 @@ namespace E_Comerece_AngularApi.Controllers
                 var data = await ProductRep.GetByFilterAsync(Filter);
                 if (data != null)
                 {
-                    return mapper.Map<ProductVM>(data);
+                    return Ok(mapper.Map<ProductVM>(data));
 
                 }
                 else
