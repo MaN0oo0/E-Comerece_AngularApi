@@ -25,6 +25,15 @@ builder.Services.AddScoped(typeof(IGenricRepo<>),typeof(GenricRepo<>));
 
 //Add Auto Mapper Configrations
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("PolicyCors", policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
 
 
 
@@ -46,6 +55,7 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors("PolicyCors");
 
 app.UseAuthorization();
 

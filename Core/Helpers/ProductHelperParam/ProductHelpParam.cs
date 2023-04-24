@@ -10,7 +10,7 @@ namespace Core.Helpers.ProductHelperParam
     {
         private const int MaxPages = 60;
         public int PageIndex { get; set; } = 1;
-        private int _PageSize { get; set; }
+        private int _PageSize { get; set; } = 6;
 
         public int PageSize
         {
